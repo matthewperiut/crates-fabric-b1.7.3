@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "crate",
+  "version": "${version}",
+
+  "name": "Crates",
+  "description": "Adds crates to minecraft, counterparts to modern minecraft's Shulker Boxes",
+  "authors": [
+    "matthewperiut"
+  ],
+  "contact": {
+  },
+
+  "license": "MIT",
+  "icon": "assets/crate/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.matthewperiut.crate.Crate"
+    ],
+    "stationapi:event_bus": [
+      "com.matthewperiut.crate.block.Blocks",
+      "com.matthewperiut.crate.blockentity.BlockEntityListener",
+      "com.matthewperiut.crate.recipe.RecipeListener"
+    ],
+    "stationapi:event_bus_client": [
+      "com.matthewperiut.crate.texture.TextureListener",
+      "com.matthewperiut.crate.gui.GuiListener"
+    ],
+    "stationapi:event_bus_server": [
+    ]
+  },
+  "depends": {
+    "minecraft": "1.0.0-beta.7.3"
+  }
+}

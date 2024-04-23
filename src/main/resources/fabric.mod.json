@@ -29,6 +29,12 @@
       "com.matthewperiut.crate.gui.GuiListener"
     ],
     "stationapi:event_bus_server": [
+    ],
+    "gcapi": [
+      "com.matthewperiut.crate.Crate"
+    ],
+    "gcapi:presave": [
+      "com.matthewperiut.crate.config.CratePreConfig"
     ]
   },
   "depends": {

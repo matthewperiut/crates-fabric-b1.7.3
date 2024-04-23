@@ -1,8 +1,11 @@
 package com.matthewperiut.crate.texture;
 
+import com.matthewperiut.crate.Crate;
 import com.matthewperiut.crate.block.Blocks;
 import net.mine_diver.unsafeevents.listener.EventListener;
+import net.minecraft.client.gui.screen.menu.TexturePacks;
 import net.modificationstation.stationapi.api.client.event.texture.TextureRegisterEvent;
+import net.modificationstation.stationapi.api.client.resource.ReloadableAssetsManager;
 import net.modificationstation.stationapi.api.client.texture.atlas.Atlases;
 import net.modificationstation.stationapi.api.client.texture.atlas.ExpandableAtlas;
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
@@ -18,6 +21,11 @@ public class TextureListener {
     @EventListener
     public void registerTextures(TextureRegisterEvent event) {
         ExpandableAtlas terrain = Atlases.getTerrain();
-        Blocks.Crate.texture = terrain.addTexture(of(MOD_ID, "block/crate")).index;
+        if (Crate.config.altTexture) {
+            Blocks.Crate.texture = terrain.addTexture(of(MOD_ID, "block/crate_alt")).index;
+        }
+        else {
+            Blocks.Crate.texture = terrain.addTexture(of(MOD_ID, "block/crate")).index;
+        }
     }
 }

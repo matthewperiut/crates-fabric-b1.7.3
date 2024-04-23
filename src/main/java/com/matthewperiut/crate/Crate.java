@@ -1,8 +1,10 @@
 package com.matthewperiut.crate;
 
+import com.matthewperiut.crate.config.CrateConfigFields;
 import com.matthewperiut.crate.spc.CommandListener;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
+import net.glasslauncher.mods.api.gcapi.api.GConfig;
 
 public class Crate implements ModInitializer {
 
@@ -12,4 +14,7 @@ public class Crate implements ModInitializer {
             CommandListener.addCrateCommand();
         }
     }
+
+    @GConfig(value = "config", visibleName = "Crates Config")
+    public static CrateConfigFields config = new CrateConfigFields();
 }

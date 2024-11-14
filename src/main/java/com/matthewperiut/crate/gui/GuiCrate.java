@@ -3,6 +3,7 @@ package com.matthewperiut.crate.gui;
 import com.matthewperiut.crate.blockentity.CrateBlockEntity;
 import com.matthewperiut.crate.inventory.ContainerCrate;
 import net.minecraft.client.gui.screen.container.ContainerBase;
+import net.minecraft.client.gui.screen.container.DoubleChest;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemInstance;
 import net.modificationstation.stationapi.api.client.item.CustomTooltipProvider;
@@ -21,7 +22,7 @@ public class GuiCrate extends ContainerBase {
     @Override
     protected void renderForeground() {
         textManager.drawText(name, 53, 14, 0x121212);
-        textManager.drawText("Inventory", 8, (height - 140), 0x404040);
+        this.textManager.drawText("Inventory", 8, this.containerHeight - 122, 4210752);
     }
 
     @Override

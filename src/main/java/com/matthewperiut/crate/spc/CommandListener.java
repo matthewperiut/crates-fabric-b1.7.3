@@ -1,6 +1,7 @@
 package com.matthewperiut.crate.spc;
 
-import com.matthewperiut.spc.api.CommandRegistry;
+
+import com.matthewperiut.retrocommands.api.CommandRegistry;
 
 public class CommandListener {
     public static void addCrateCommand() {

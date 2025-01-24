@@ -1,81 +1,81 @@
 package com.matthewperiut.crate.blockitem;
 
 import com.matthewperiut.crate.blockentity.CrateBlockEntity;
-import net.minecraft.block.BlockBase;
-import net.minecraft.entity.player.PlayerBase;
-import net.minecraft.item.ItemInstance;
-import net.minecraft.level.Level;
-import net.minecraft.util.io.CompoundTag;
-import net.minecraft.util.io.ListTag;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.client.item.CustomTooltipProvider;
 import net.modificationstation.stationapi.api.template.item.TemplateBlockItem;
 
 public class CrateBlockItem extends TemplateBlockItem implements CustomTooltipProvider {
     public CrateBlockItem(int i) {
         super(i);
-        setMaxStackSize(1);
+        setMaxCount(1);
     }
 
     @Override
-    public boolean useOnTile(ItemInstance arg, PlayerBase arg2, Level level, int i, int j, int k, int l) {
-        boolean value = super.useOnTile(arg, arg2, level, i, j, k, l);;
+    public boolean useOnBlock(ItemStack arg, PlayerEntity user, World world, int x, int y, int z, int side) {
+        boolean value = super.useOnBlock(arg, user, world, x, y, z, side);;
         if (value) {
-            if (level.getTileId(i, j, k) == BlockBase.SNOW.id) {
-                l = 0;
+            if (world.getBlockId(x, y, z) == Block.SNOW.id) {
+                side = 0;
             } else {
-                if (l == 0) {
-                    --j;
+                if (side == 0) {
+                    --y;
                 }
 
-                if (l == 1) {
-                    ++j;
+                if (side == 1) {
+                    ++y;
                 }
 
-                if (l == 2) {
-                    --k;
+                if (side == 2) {
+                    --z;
                 }
 
-                if (l == 3) {
-                    ++k;
+                if (side == 3) {
+                    ++z;
                 }
 
-                if (l == 4) {
-                    --i;
+                if (side == 4) {
+                    --x;
                 }
 
-                if (l == 5) {
-                    ++i;
+                if (side == 5) {
+                    ++x;
                 }
             }
             // success
-            if (arg.getStationNbt().containsKey("Items")) {
+            if (arg.getStationNbt().contains("Items")) {
 
-                CrateBlockEntity c = (CrateBlockEntity) level.getTileEntity(i, j, k);
-                ListTag items = arg.getStationNbt().getListTag("Items");
+                CrateBlockEntity c = (CrateBlockEntity) world.getBlockEntity(x, y, z);
+                NbtList items = arg.getStationNbt().getList("Items");
 
-                c.contents = new ItemInstance[c.getInventorySize()];
+                c.contents = new ItemStack[c.size()];
 
                 for(int m = 0; m < items.size(); ++m) {
-                    CompoundTag tag = (CompoundTag)items.get(m);
+                    NbtCompound tag = (NbtCompound)items.get(m);
                     int var5 = tag.getByte("Slot") & 255;
                     if (var5 >= 0 && var5 < c.contents.length) {
-                        c.contents[var5] = new ItemInstance(tag);
+                        c.contents[var5] = new ItemStack(tag);
                     }
                 }
             }
 
-            if (arg.getStationNbt().containsKey("Name")) {
-                CrateBlockEntity c = (CrateBlockEntity) level.getTileEntity(i, j, k);
-                c.setContainerName(arg.getStationNbt().getString("Name"));
+            if (arg.getStationNbt().contains("Name")) {
+                CrateBlockEntity c = (CrateBlockEntity) world.getBlockEntity(x, y, z);
+                c.setName(arg.getStationNbt().getString("Name"));
             }
         }
         return value;
     }
 
     @Override
-    public String[] getTooltip(ItemInstance stack, String originalTooltip) {
+    public String[] getTooltip(ItemStack stack, String originalTooltip) {
 
-        if (stack.getStationNbt().containsKey("Name")) {
+        if (stack.getStationNbt().contains("Name")) {
             return new String[]{stack.getStationNbt().getString("Name")};
         }
 

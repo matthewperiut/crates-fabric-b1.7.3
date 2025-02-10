@@ -1,26 +1,26 @@
 package com.matthewperiut.crate.blockitem;
 
 import com.matthewperiut.crate.blockentity.CrateBlockEntity;
-import net.minecraft.block.BlockBase;
-import net.minecraft.entity.player.PlayerBase;
-import net.minecraft.item.ItemInstance;
-import net.minecraft.level.Level;
-import net.minecraft.util.io.CompoundTag;
-import net.minecraft.util.io.ListTag;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.client.item.CustomTooltipProvider;
 import net.modificationstation.stationapi.api.template.item.TemplateBlockItem;
 
 public class CrateBlockItem extends TemplateBlockItem implements CustomTooltipProvider {
     public CrateBlockItem(int i) {
         super(i);
-        setMaxStackSize(1);
+        setMaxCount(1);
     }
 
     @Override
-    public boolean useOnTile(ItemInstance arg, PlayerBase arg2, Level level, int i, int j, int k, int l) {
-        boolean value = super.useOnTile(arg, arg2, level, i, j, k, l);;
+    public boolean useOnBlock(ItemStack arg, PlayerEntity arg2, World level, int i, int j, int k, int l) {
+        boolean value = super.useOnBlock(arg, arg2, level, i, j, k, l);;
         if (value) {
-            if (level.getTileId(i, j, k) == BlockBase.SNOW.id) {
+            if (level.getBlockId(i, j, k) == Block.SNOW.id) {
                 l = 0;
             } else {
                 if (l == 0) {
@@ -48,24 +48,24 @@ public class CrateBlockItem extends TemplateBlockItem implements CustomTooltipPr
                 }
             }
             // success
-            if (arg.getStationNbt().containsKey("Items")) {
+            if (arg.getStationNbt().contains("Items")) {
 
-                CrateBlockEntity c = (CrateBlockEntity) level.getTileEntity(i, j, k);
-                ListTag items = arg.getStationNbt().getListTag("Items");
+                CrateBlockEntity c = (CrateBlockEntity) level.getBlockEntity(i, j, k);
+                NbtList items = arg.getStationNbt().getList("Items");
 
-                c.contents = new ItemInstance[c.getInventorySize()];
+                c.contents = new ItemStack[c.size()];
 
                 for(int m = 0; m < items.size(); ++m) {
-                    CompoundTag tag = (CompoundTag)items.get(m);
+                    NbtCompound tag = (NbtCompound)items.get(m);
                     int var5 = tag.getByte("Slot") & 255;
                     if (var5 >= 0 && var5 < c.contents.length) {
-                        c.contents[var5] = new ItemInstance(tag);
+                        c.contents[var5] = new ItemStack(tag);
                     }
                 }
             }
 
-            if (arg.getStationNbt().containsKey("Name")) {
-                CrateBlockEntity c = (CrateBlockEntity) level.getTileEntity(i, j, k);
+            if (arg.getStationNbt().contains("Name")) {
+                CrateBlockEntity c = (CrateBlockEntity) level.getBlockEntity(i, j, k);
                 c.setContainerName(arg.getStationNbt().getString("Name"));
             }
         }
@@ -73,9 +73,9 @@ public class CrateBlockItem extends TemplateBlockItem implements CustomTooltipPr
     }
 
     @Override
-    public String[] getTooltip(ItemInstance stack, String originalTooltip) {
+    public String[] getTooltip(ItemStack stack, String originalTooltip) {
 
-        if (stack.getStationNbt().containsKey("Name")) {
+        if (stack.getStationNbt().contains("Name")) {
             return new String[]{stack.getStationNbt().getString("Name")};
         }
 

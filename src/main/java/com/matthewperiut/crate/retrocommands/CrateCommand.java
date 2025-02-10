@@ -1,23 +1,22 @@
-package com.matthewperiut.crate.spc;
+package com.matthewperiut.crate.retrocommands;
 
-import com.matthewperiut.crate.block.CrateBlock;
 import com.matthewperiut.crate.blockitem.CrateBlockItem;
-import com.matthewperiut.spc.api.Command;
-import com.matthewperiut.spc.util.SharedCommandSource;
-import net.minecraft.entity.player.PlayerBase;
-import net.minecraft.item.ItemInstance;
+import com.matthewperiut.retrocommands.api.Command;
+import com.matthewperiut.retrocommands.util.SharedCommandSource;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 
 public class CrateCommand implements Command {
     @Override
     public void command(SharedCommandSource commandSource, String[] parameters) {
-        PlayerBase player = commandSource.getPlayer();
+        PlayerEntity player = commandSource.getPlayer();
         if (player != null) {
-            ItemInstance item = player.inventory.main[player.inventory.selectedHotbarSlot];
+            ItemStack item = player.inventory.main[player.inventory.selectedSlot];
             if (item == null) {
                 commandSource.sendFeedback("You must be holding a crate to give a name to");
                 return;
             }
-            if (!(item.getType() instanceof CrateBlockItem)) {
+            if (!(item.getItem() instanceof CrateBlockItem)) {
                 commandSource.sendFeedback("You must be holding a crate to give a name to");
                 return;
             }
@@ -36,7 +35,7 @@ public class CrateCommand implements Command {
                 return;
             }
 
-            item.getStationNbt().put("Name", name);
+            item.getStationNbt().putString("Name", name);
         }
     }
 

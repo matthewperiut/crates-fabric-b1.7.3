@@ -3,16 +3,13 @@ package com.matthewperiut.crate.block;
 import com.matthewperiut.crate.blockentity.CrateBlockEntity;
 import com.matthewperiut.crate.blockitem.CrateBlockItem;
 import com.matthewperiut.crate.inventory.ContainerCrate;
-import net.minecraft.block.Chest;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.PlayerBase;
-import net.minecraft.item.ItemBase;
-import net.minecraft.item.ItemInstance;
-import net.minecraft.level.Level;
-import net.minecraft.tileentity.TileEntityBase;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.io.CompoundTag;
-import net.minecraft.util.io.ListTag;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.block.HasCustomBlockItemFactory;
 import net.modificationstation.stationapi.api.gui.screen.container.GuiHelper;
 import net.modificationstation.stationapi.api.template.block.TemplateBlockWithEntity;
@@ -30,41 +27,41 @@ public class CrateBlock extends TemplateBlockWithEntity {
     }
 
     @Override
-    protected TileEntityBase createTileEntity() {
+    protected BlockEntity createBlockEntity() {
         return new CrateBlockEntity();
     }
 
     @Override
-    public void onBlockRemoved(Level level, int x, int y, int z) {
-        CrateBlockEntity crate = (CrateBlockEntity)level.getTileEntity(x, y, z);
-        ItemInstance modifiedItem = new ItemInstance(Blocks.Crate, 1);
-        ListTag listTag = new ListTag();
+    public void onBreak(World level, int x, int y, int z) {
+        CrateBlockEntity crate = (CrateBlockEntity)level.getBlockEntity(x, y, z);
+        ItemStack modifiedItem = new ItemStack(Blocks.Crate, 1);
+        NbtList listTag = new NbtList();
 
-        for(int i = 0; i < crate.getInventorySize(); ++i) {
+        for(int i = 0; i < crate.size(); ++i) {
             if (crate.contents[i] != null) {
-                CompoundTag var4 = new CompoundTag();
-                var4.put("Slot", (byte)i);
-                crate.contents[i].toTag(var4);
+                NbtCompound var4 = new NbtCompound();
+                var4.putByte("Slot", (byte)i);
+                crate.contents[i].writeNbt(var4);
                 listTag.add(var4);
             }
         }
 
-        if (!crate.getContainerName().equals("Crate")) {
-            modifiedItem.getStationNbt().put("Name", crate.getContainerName());
+        if (!crate.getName().equals("Crate")) {
+            modifiedItem.getStationNbt().putString("Name", crate.getName());
         }
 
         modifiedItem.getStationNbt().put("Items", listTag);
-        drop(level, x, y, z, modifiedItem);
+        dropStack(level, x, y, z, modifiedItem);
     }
 
     @Override
-    public int getDropCount(Random random) {
+    public int getDroppedItemCount(Random random) {
         return 0;
     }
 
     @Override
-    public boolean canUse(Level level, int x, int y, int z, PlayerBase entityplayer) {
-        TileEntityBase t = level.getTileEntity(x, y, z);
+    public boolean onUse(World level, int x, int y, int z, PlayerEntity entityplayer) {
+        BlockEntity t = level.getBlockEntity(x, y, z);
         if (t instanceof CrateBlockEntity crate) {
             GuiHelper.openGUI(entityplayer, of(MOD_ID, "crate"), crate, new ContainerCrate(entityplayer.inventory, crate));
         }

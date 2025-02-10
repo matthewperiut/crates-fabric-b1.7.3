@@ -2,25 +2,24 @@ package com.matthewperiut.crate.inventory;
 
 import com.matthewperiut.crate.blockentity.CrateBlockEntity;
 import com.matthewperiut.crate.blockitem.CrateBlockItem;
-import net.minecraft.container.ContainerBase;
-import net.minecraft.container.ContainerListener;
-import net.minecraft.container.slot.Slot;
-import net.minecraft.entity.player.PlayerBase;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.InventoryBase;
-import net.minecraft.item.ItemInstance;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.Slot;
 
-public class ContainerCrate extends ContainerBase
+public class ContainerCrate extends ScreenHandler
 {
     private static class CrateSlot extends Slot {
 
-        public CrateSlot(InventoryBase arg, int i, int j, int k) {
+        public CrateSlot(Inventory arg, int i, int j, int k) {
             super(arg, i, j, k);
         }
 
         @Override
-        public boolean canInsert(ItemInstance arg) {
-            return !(arg.getType() instanceof CrateBlockItem);
+        public boolean canInsert(ItemStack arg) {
+            return !(arg.getItem() instanceof CrateBlockItem);
         }
     }
 
@@ -49,7 +48,7 @@ public class ContainerCrate extends ContainerBase
     }
 
     @Override
-    public boolean canUse(PlayerBase arg) {
+    public boolean canUse(PlayerEntity arg) {
         return true;
     }
 }

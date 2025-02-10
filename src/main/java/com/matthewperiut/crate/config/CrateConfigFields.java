@@ -1,10 +1,8 @@
 package com.matthewperiut.crate.config;
 
-import blue.endless.jankson.Comment;
-import net.glasslauncher.mods.api.gcapi.api.ConfigName;
+import net.glasslauncher.mods.gcapi3.api.ConfigEntry;
 
 public class CrateConfigFields {
-    @ConfigName("More b1.7.3-like texture")
-    @Comment("May require rejoining world!")
+    @ConfigEntry(name = "More b1.7.3-like texture", comment = "May require rejoining world!")
     public Boolean altTexture = false;
 }

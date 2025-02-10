@@ -17,7 +17,7 @@ import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-import static com.matthewperiut.crate.block.Blocks.MOD_ID;
+import static com.matthewperiut.crate.block.Blocks.NAMESPACE;
 import static net.modificationstation.stationapi.api.util.Identifier.of;
 
 @HasCustomBlockItemFactory(CrateBlockItem.class)
@@ -32,8 +32,8 @@ public class CrateBlock extends TemplateBlockWithEntity {
     }
 
     @Override
-    public void onBreak(World level, int x, int y, int z) {
-        CrateBlockEntity crate = (CrateBlockEntity)level.getBlockEntity(x, y, z);
+    public void onBreak(World world, int x, int y, int z) {
+        CrateBlockEntity crate = (CrateBlockEntity)world.getBlockEntity(x, y, z);
         ItemStack modifiedItem = new ItemStack(Blocks.Crate, 1);
         NbtList listTag = new NbtList();
 
@@ -51,7 +51,7 @@ public class CrateBlock extends TemplateBlockWithEntity {
         }
 
         modifiedItem.getStationNbt().put("Items", listTag);
-        dropStack(level, x, y, z, modifiedItem);
+        dropStack(world, x, y, z, modifiedItem);
     }
 
     @Override
@@ -60,10 +60,10 @@ public class CrateBlock extends TemplateBlockWithEntity {
     }
 
     @Override
-    public boolean onUse(World level, int x, int y, int z, PlayerEntity entityplayer) {
-        BlockEntity t = level.getBlockEntity(x, y, z);
+    public boolean onUse(World world, int x, int y, int z, PlayerEntity player) {
+        BlockEntity t = world.getBlockEntity(x, y, z);
         if (t instanceof CrateBlockEntity crate) {
-            GuiHelper.openGUI(entityplayer, of(MOD_ID, "crate"), crate, new ContainerCrate(entityplayer.inventory, crate));
+            GuiHelper.openGUI(player, of(NAMESPACE, "crate"), crate, new ContainerCrate(player.inventory, crate));
         }
         return true;
     }

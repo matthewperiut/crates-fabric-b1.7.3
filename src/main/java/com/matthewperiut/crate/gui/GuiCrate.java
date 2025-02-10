@@ -19,7 +19,7 @@ public class GuiCrate extends HandledScreen {
     @Override
     protected void drawForeground() {
         textRenderer.draw(name, 53, 14, 0x121212);
-        this.textRenderer.draw("Inventory", 8, this.backgroundHeight - 122, 4210752);
+        textRenderer.draw("Inventory", 8, this.backgroundHeight - 122, 4210752);
     }
 
     @Override

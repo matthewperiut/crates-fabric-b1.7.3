@@ -11,26 +11,29 @@ public class CrateBlockEntity extends BlockEntity implements Inventory {
     private String name = "Crate";
     public ItemStack[] contents = new ItemStack[12];
 
+    @Override
     public int size() {
         return contents.length;
     }
 
-    public ItemStack getStack(int i) {
-        return this.contents[i];
+    @Override
+    public ItemStack getStack(int slot) {
+        return this.contents[slot];
     }
 
-    public ItemStack removeStack(int i, int j) {
-        if (this.contents[i] != null) {
+    @Override
+    public ItemStack removeStack(int slot, int amount) {
+        if (this.contents[slot] != null) {
             ItemStack var3;
-            if (this.contents[i].count <= j) {
-                var3 = this.contents[i];
-                this.contents[i] = null;
+            if (this.contents[slot].count <= amount) {
+                var3 = this.contents[slot];
+                this.contents[slot] = null;
                 this.markDirty();
                 return var3;
             } else {
-                var3 = this.contents[i].split(j);
-                if (this.contents[i].count == 0) {
-                    this.contents[i] = null;
+                var3 = this.contents[slot].split(amount);
+                if (this.contents[slot].count == 0) {
+                    this.contents[slot] = null;
                 }
 
                 this.markDirty();
@@ -40,24 +43,27 @@ public class CrateBlockEntity extends BlockEntity implements Inventory {
             return null;
         }
     }
-
-    public void setStack(int i, ItemStack arg) {
-        this.contents[i] = arg;
-        if (arg != null && arg.count > this.getMaxCountPerStack()) {
-            arg.count = this.getMaxCountPerStack();
+    
+    @Override
+    public void setStack(int slot, ItemStack stack) {
+        this.contents[slot] = stack;
+        if (stack != null && stack.count > this.getMaxCountPerStack()) {
+            stack.count = this.getMaxCountPerStack();
         }
 
         this.markDirty();
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
-    public void setContainerName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
+    @Override
     public void readNbt(NbtCompound tag) {
         super.readNbt(tag);
         NbtList var2 = tag.getList("Items");
@@ -77,6 +83,7 @@ public class CrateBlockEntity extends BlockEntity implements Inventory {
 
     }
 
+    @Override
     public void writeNbt(NbtCompound arg) {
         super.writeNbt(arg);
         NbtList var2 = new NbtList();
@@ -97,10 +104,12 @@ public class CrateBlockEntity extends BlockEntity implements Inventory {
         arg.put("Items", var2);
     }
 
+    @Override
     public int getMaxCountPerStack() {
         return 64;
     }
 
+    @Override
     public boolean canPlayerUse(PlayerEntity arg) {
         if (this.world.getBlockEntity(this.x, this.y, this.z) != this) {
             return false;

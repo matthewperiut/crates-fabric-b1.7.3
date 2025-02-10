@@ -17,40 +17,40 @@ public class CrateBlockItem extends TemplateBlockItem implements CustomTooltipPr
     }
 
     @Override
-    public boolean useOnBlock(ItemStack arg, PlayerEntity arg2, World level, int i, int j, int k, int l) {
-        boolean value = super.useOnBlock(arg, arg2, level, i, j, k, l);;
+    public boolean useOnBlock(ItemStack arg, PlayerEntity user, World world, int x, int y, int z, int side) {
+        boolean value = super.useOnBlock(arg, user, world, x, y, z, side);;
         if (value) {
-            if (level.getBlockId(i, j, k) == Block.SNOW.id) {
-                l = 0;
+            if (world.getBlockId(x, y, z) == Block.SNOW.id) {
+                side = 0;
             } else {
-                if (l == 0) {
-                    --j;
+                if (side == 0) {
+                    --y;
                 }
 
-                if (l == 1) {
-                    ++j;
+                if (side == 1) {
+                    ++y;
                 }
 
-                if (l == 2) {
-                    --k;
+                if (side == 2) {
+                    --z;
                 }
 
-                if (l == 3) {
-                    ++k;
+                if (side == 3) {
+                    ++z;
                 }
 
-                if (l == 4) {
-                    --i;
+                if (side == 4) {
+                    --x;
                 }
 
-                if (l == 5) {
-                    ++i;
+                if (side == 5) {
+                    ++x;
                 }
             }
             // success
             if (arg.getStationNbt().contains("Items")) {
 
-                CrateBlockEntity c = (CrateBlockEntity) level.getBlockEntity(i, j, k);
+                CrateBlockEntity c = (CrateBlockEntity) world.getBlockEntity(x, y, z);
                 NbtList items = arg.getStationNbt().getList("Items");
 
                 c.contents = new ItemStack[c.size()];
@@ -65,8 +65,8 @@ public class CrateBlockItem extends TemplateBlockItem implements CustomTooltipPr
             }
 
             if (arg.getStationNbt().contains("Name")) {
-                CrateBlockEntity c = (CrateBlockEntity) level.getBlockEntity(i, j, k);
-                c.setContainerName(arg.getStationNbt().getString("Name"));
+                CrateBlockEntity c = (CrateBlockEntity) world.getBlockEntity(x, y, z);
+                c.setName(arg.getStationNbt().getString("Name"));
             }
         }
         return value;

@@ -37,7 +37,14 @@
       "com.matthewperiut.crate.config.CratePreConfig"
     ]
   },
+
   "depends": {
-    "minecraft": "1.0.0-beta.7.3"
+    "minecraft": "1.0.0-beta.7.3",
+    "stationapi": "*"
+  },
+
+  "recommends": {
+    "gcapi": "*",
+    "modmenu": "*"
   }
 }

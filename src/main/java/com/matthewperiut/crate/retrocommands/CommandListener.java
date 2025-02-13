@@ -1,5 +1,4 @@
-package com.matthewperiut.crate.spc;
-
+package com.matthewperiut.crate.retrocommands;
 
 import com.matthewperiut.retrocommands.api.CommandRegistry;
 

@@ -1,6 +1,5 @@
-package com.matthewperiut.crate.spc;
+package com.matthewperiut.crate.retrocommands;
 
-import com.matthewperiut.crate.block.CrateBlock;
 import com.matthewperiut.crate.blockitem.CrateBlockItem;
 import com.matthewperiut.retrocommands.api.Command;
 import com.matthewperiut.retrocommands.util.SharedCommandSource;

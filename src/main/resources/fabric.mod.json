@@ -30,10 +30,10 @@
     ],
     "stationapi:event_bus_server": [
     ],
-    "gcapi": [
+    "gcapi3": [
       "com.matthewperiut.crate.Crate"
     ],
-    "gcapi:presave": [
+    "gcapi3:presave": [
       "com.matthewperiut.crate.config.CratePreConfig"
     ]
   },

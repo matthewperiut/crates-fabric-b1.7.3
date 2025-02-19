@@ -1,7 +1,7 @@
 plugins {
     id 'maven-publish'
     id 'fabric-loom' version '1.9.2'
-    id 'babric-loom-extension' version '1.9.2'
+    id 'babric-loom-extension' version '1.9.4'
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -84,9 +84,9 @@ dependencies {
         transitive false
     }
 
-    modImplementation("net.glasslauncher.mods:AlwaysMoreItems:${project.alwaysmoreitems_version}") {
-        transitive false
-    }
+//    modImplementation("net.glasslauncher.mods:AlwaysMoreItems:${project.alwaysmoreitems_version}") {
+//        transitive false
+//    }
 
     modImplementation("com.github.matthewperiut:retrocommands:${project.retrocommands_version}") {
         transitive false

@@ -17,7 +17,6 @@ import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-import static com.matthewperiut.crate.block.Blocks.NAMESPACE;
 import static net.modificationstation.stationapi.api.util.Identifier.of;
 
 @HasCustomBlockItemFactory(CrateBlockItem.class)
@@ -34,7 +33,7 @@ public class CrateBlock extends TemplateBlockWithEntity {
     @Override
     public void onBreak(World world, int x, int y, int z) {
         CrateBlockEntity crate = (CrateBlockEntity)world.getBlockEntity(x, y, z);
-        ItemStack modifiedItem = new ItemStack(Blocks.Crate, 1);
+        ItemStack modifiedItem = new ItemStack(Blocks.CrateBlock, 1);
         NbtList listTag = new NbtList();
 
         for(int i = 0; i < crate.size(); ++i) {
@@ -63,7 +62,7 @@ public class CrateBlock extends TemplateBlockWithEntity {
     public boolean onUse(World world, int x, int y, int z, PlayerEntity player) {
         BlockEntity t = world.getBlockEntity(x, y, z);
         if (t instanceof CrateBlockEntity crate) {
-            GuiHelper.openGUI(player, of(NAMESPACE, "crate"), crate, new ContainerCrate(player.inventory, crate));
+            GuiHelper.openGUI(player, of(Blocks.NAMESPACE, "crate"), crate, new ContainerCrate(player.inventory, crate));
         }
         return true;
     }

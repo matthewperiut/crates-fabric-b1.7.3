@@ -14,7 +14,7 @@ public class RecipeListener {
     public void registerRecipes(RecipeRegisterEvent event) {
         RecipeRegisterEvent.Vanilla type = RecipeRegisterEvent.Vanilla.fromType(event.recipeId);
         if (Objects.requireNonNull(type) == RecipeRegisterEvent.Vanilla.CRAFTING_SHAPED) {
-            CraftingRegistry.addShapedRecipe(new ItemStack(Blocks.Crate), "LLL", "L L", "LLL", 'L', Block.LOG);
+            CraftingRegistry.addShapedRecipe(new ItemStack(Blocks.CrateBlock), "LLL", "L L", "LLL", 'L', Block.LOG);
         }
     }
 }

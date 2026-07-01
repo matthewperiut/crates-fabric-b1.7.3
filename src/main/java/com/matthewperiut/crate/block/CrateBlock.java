@@ -5,6 +5,7 @@ import com.matthewperiut.crate.blockitem.CrateBlockItem;
 import com.matthewperiut.crate.inventory.ContainerCrate;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -66,5 +67,32 @@ public class CrateBlock extends TemplateBlockWithEntity {
             GuiHelper.openGUI(player, of(Blocks.NAMESPACE, "crate"), crate, new ContainerCrate(player.inventory, crate));
         }
         return true;
+    }
+
+    @Override
+    public void onPlaced(World world, int x, int y, int z, LivingEntity placer) {
+        super.onPlaced(world, x, y, z, placer);
+        ItemStack crateItem = CrateBlockItem.crateItem;
+        if (crateItem == null) return;
+
+        CrateBlockEntity c = (CrateBlockEntity) world.getBlockEntity(x, y, z);
+        if (c == null) return;
+
+        if (crateItem.getStationNbt().contains("Items")) {
+            NbtList items = crateItem.getStationNbt().getList("Items");
+            c.contents = new ItemStack[c.size()];
+
+            for (int i = 0; i < items.size(); i++) {
+                NbtCompound tag = (NbtCompound) items.get(i);
+                int slot = tag.getByte("Slot") & 255;
+                if (slot >= 0 && slot < c.contents.length) {
+                    c.contents[slot] = new ItemStack(tag);
+                }
+            }
+        }
+
+        if (crateItem.getStationNbt().contains("Name")) {
+            c.setName(crateItem.getStationNbt().getString("Name"));
+        }
     }
 }

@@ -1,13 +1,13 @@
 plugins {
     id 'maven-publish'
-    id 'fabric-loom' version '1.9.2'
-    id 'babric-loom-extension' version '1.9.4'
+    id 'fabric-loom' version '1.17.12'
+    id 'babric-loom-extension' version '1.16.1'
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_17
+java.targetCompatibility = JavaVersion.VERSION_17
 
-archivesBaseName = project.archives_base_name
+base.archivesName = project.properties["archives_base_name"] as String
 version = project.mod_version
 group = project.maven_group
 
@@ -72,7 +72,7 @@ dependencies {
     
     modImplementation("net.modificationstation:StationAPI:${project.stapi_version}")
 
-    modImplementation("net.glasslauncher.mods:ModMenu:${project.modmenu_version}") {
+    modImplementation("net.danygames2014:modmenu:${project.modmenu_version}") {
         transitive false
     }
 
@@ -117,7 +117,7 @@ java {
 
 jar {
 	from("LICENSE") {
-		rename { "${it}_${project.archivesBaseName}"}
+		rename { "${it}_${project.archives_base_name}"}
 	}
 }
 

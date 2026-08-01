@@ -6,6 +6,6 @@ import net.modificationstation.stationapi.api.event.block.entity.BlockEntityRegi
 public class BlockEntityListener {
     @EventListener
     public void registerBlockEntities(BlockEntityRegisterEvent event) {
-        event.register(CrateBlockEntity.class, "crate:crate");
+        event.register("crate:crate", CrateBlockEntity.class);
     }
 }
